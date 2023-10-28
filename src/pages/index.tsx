@@ -1,3 +1,4 @@
+import Layout from "@/compornent/Layout";
 import { Inter } from "next/font/google";
 import Link from "next/link";
 
@@ -5,8 +6,8 @@ const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   return (
-    <div>
-      <h1>START페이지</h1>
+    <>
+      <h1 className="font-bold">START페이지</h1>
       <ul>
         <li>
           <Link href="/stores">가게 목록</Link>
@@ -30,6 +31,6 @@ export default function Home() {
           <Link href="/users/likes">찜한 목록</Link>
         </li>
       </ul>
-    </div>
+    </>
   );
 }
