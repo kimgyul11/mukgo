@@ -9,7 +9,7 @@ import { GrMap } from "react-icons/gr";
 import { GiCook } from "react-icons/gi";
 import { StoreType } from "@/interface";
 interface StoreBoxProps {
-  store: StoreType;
+  store: StoreType | null;
   setStore: Dispatch<SetStateAction<any>>;
 }
 
