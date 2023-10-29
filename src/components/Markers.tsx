@@ -10,7 +10,6 @@ export default function Markers({ map, stores, setCurrentStore }: MarkerProps) {
   const loadKakaoMarkers = useCallback(() => {
     //지도가 있는 경우에만 수행해야한다.
     if (map) {
-      //json데이터를 map으로 순회하며 마커 찍기
       stores?.map((store) => {
         //1.이미지 마커를 생성하기 위한 기본 이미지 정보 정의
         var imageSrc = store?.category
