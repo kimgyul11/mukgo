@@ -7,7 +7,7 @@
 }
 
 .navbar {
-  @apply flex justify-between items-center  w-full h-[52px] top-0 shadow-sm bg-white fixed max-w-[1500px];
+  @apply flex justify-between items-center  w-full h-[52px] top-0 shadow-sm bg-white fixed max-w-[1500px] z-[100];
 }
 .navbar__logo {
   @apply text-lg font-semibold cursor-pointer px-[18px] py-0;
