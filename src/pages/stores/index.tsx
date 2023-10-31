@@ -1,13 +1,14 @@
 import Loader from "@/components/Loader";
 import Loading from "@/components/Loading";
 import Pagenation from "@/components/Pagenation";
+import SearchFilter from "@/components/SearchFilter";
 import useIntersectionObserver from "@/hooks/useIntersectionObserver";
 import { StoreApiResponse, StoreType } from "@/interface";
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 
 import { useInfiniteQuery, useQuery } from "react-query";
 
@@ -17,6 +18,13 @@ export default function StoreListPage() {
   const ref = useRef<HTMLDivElement | null>(null); //타겟을 지정하기 위한 useRef
   const pageRef = useIntersectionObserver(ref, {}); //감시하기위한 observerHook
   const isPageEnd = !!pageRef?.isIntersecting; // 페이지의 끝인지 확인하는 변수
+  const [q, setQ] = useState<string | null>(null);
+  const [district, setDistrict] = useState<string | null>(null);
+
+  const searchParams = {
+    q: q,
+    district: district,
+  };
 
   const fetchStores = async ({ pageParam = 1 }) => {
     //페이지가 시작될 값
@@ -24,6 +32,7 @@ export default function StoreListPage() {
       params: {
         limit: 10,
         page: pageParam,
+        ...searchParams,
       },
     });
     return data;
@@ -37,7 +46,7 @@ export default function StoreListPage() {
     fetchNextPage,
     isFetchingNextPage,
     hasNextPage,
-  } = useInfiniteQuery("stores", fetchStores, {
+  } = useInfiniteQuery(["stores", searchParams], fetchStores, {
     getNextPageParam: (lastPage: any) =>
       lastPage.data?.length > 0 ? lastPage.page + 1 : undefined,
   });
@@ -70,6 +79,7 @@ export default function StoreListPage() {
   }
   return (
     <div className="px-4 md:max-w-5xl mx-auto py-8">
+      <SearchFilter setQ={setQ} setDistrict={setDistrict} />
       <ul role="list" className="divide-y divide-gray-100">
         {isLoading ? (
           <Loading />
