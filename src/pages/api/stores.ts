@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { StoreApiResponse, StoreType } from "@/interface";
-import { PrismaClient } from "@prisma/client";
+
+import prisma from "@/db";
 
 interface ResponseType {
   page?: string;
@@ -14,7 +15,6 @@ export default async function handler(
   res: NextApiResponse<StoreApiResponse | StoreType[] | StoreType>
 ) {
   const { page = "", limit = "", q, district }: ResponseType = req.query;
-  const prisma = new PrismaClient();
 
   //page여부에 따라 전체 데이터를 가져와야하는지, 10개씩 가져와야하는지 확인
   if (page) {

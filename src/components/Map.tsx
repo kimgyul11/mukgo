@@ -1,5 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
 import Script from "next/script";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { locationState, mapState } from "@/atom";
 
 /* global kakao TS */
 declare global {
@@ -7,18 +9,16 @@ declare global {
     kakao: any;
   }
 }
-const DEFAULT_LAT = 37.497625203;
-const DEFAULT_LAN = 127.03088379;
-const DEFAULT_ZOOM = 3;
 
 interface MapProps {
-  setMap: Dispatch<SetStateAction<any>>;
   lat?: string | null;
   lng?: string | null;
   zoom?: number;
 }
 
-export default function Map({ lat, lng, zoom, setMap }: MapProps) {
+export default function Map({ lat, lng, zoom }: MapProps) {
+  const setMap = useSetRecoilState(mapState);
+  const location = useRecoilValue(locationState);
   const loadKakaoMap = () => {
     //카카오 지도 로드 함수
     window.kakao.maps.load(() => {
@@ -26,10 +26,10 @@ export default function Map({ lat, lng, zoom, setMap }: MapProps) {
       const mapContainer = document.getElementById("map");
       const mapOption = {
         center: new window.kakao.maps.LatLng(
-          lat ?? DEFAULT_LAT,
-          lng ?? DEFAULT_LAN
+          lat ?? location.lat,
+          lng ?? location.lng
         ), //초기 시작 위치 LatLng(latitude위도 , longitude경도)
-        level: zoom ?? DEFAULT_ZOOM, //zoom 단계
+        level: zoom ?? location.zoom, //zoom 단계
       };
       // new kakao.maps.Map(node, options)메서드를 통해서 map을 생성한다.
       const map = new window.kakao.maps.Map(mapContainer, mapOption);
