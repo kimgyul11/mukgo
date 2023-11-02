@@ -18,8 +18,8 @@ export default function StoreListPage() {
   const router = useRouter();
   const { page = "1" }: any = router.query;
   const ref = useRef<HTMLDivElement | null>(null); //타겟을 지정하기 위한 useRef
-  const pageRef = useIntersectionObserver(ref, {}); //감시하기위한 observerHook
-  const isPageEnd = !!pageRef?.isIntersecting; // 페이지의 끝인지 확인하는 변수
+  const pageRef = useIntersectionObserver(ref, {}); //io훅을 통해서 entry를 받아온다.
+  const isPageEnd = !!pageRef?.isIntersecting; // 페이지의 끝인지 확인 - inintersecting:교차상태인지 아닌지 Boolean값으로 반환해줌
   const searchValue = useRecoilValue(searchState);
 
   const searchParams = {

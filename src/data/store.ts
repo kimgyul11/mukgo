@@ -25,3 +25,27 @@ export const DISTRICT_ARR = [
   "중구",
   "중랑구",
 ];
+
+export const CATEGORY_ARR = [
+  "한식",
+  "카페",
+  "분식",
+  "동남아",
+  "양식",
+  "술집",
+  "베이커리",
+  "인도_중동",
+  "중국식",
+  "탕류",
+  "일식",
+  "복어취급",
+];
+
+export const FOOD_CERTIFY_ARR = [
+  "비건음식",
+  "가족과 함께",
+  "저염음식점",
+  "친환경유기농식품판매점",
+];
+
+export const STORE_TYPE_ARR = ["일반음식점", "휴게음식점", "제과음식점"];
