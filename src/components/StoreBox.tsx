@@ -33,7 +33,7 @@ export default function StoreBox() {
                   alt="icon image"
                 />
                 <div>
-                  <div className="font-semibold">{store?.name}</div>
+                  <div className="font-semibold">{store?.content}</div>
                   <div className="text-sm">{store?.storeType}</div>
                 </div>
               </div>
@@ -43,7 +43,7 @@ export default function StoreBox() {
             </div>
             <div className="mt-2 flex gap-2 items-center">
               <GrMap />
-              {store?.address}
+              {store?.road_address_name}
             </div>
             <div className="mt-2 flex gap-2 items-center">
               <AiOutlinePhone />
@@ -51,7 +51,9 @@ export default function StoreBox() {
             </div>
             <div className="mt-2 flex gap-2 items-center">
               <AiOutlineInfoCircle />
-              {store?.storeType}
+              <a href={`${store.url} `} target="_blank">
+                {store?.url}
+              </a>
             </div>
             <div className="mt-2 flex gap-2 items-center">
               <GiCook />
@@ -60,10 +62,22 @@ export default function StoreBox() {
           </div>
           <button
             type="button"
-            onClick={() => router.push(`/stores/${store.id}`)}
+            onClick={() =>
+              router.push(
+                {
+                  pathname: `/stores/new`,
+                  query: {
+                    name: store?.content,
+                    url: store?.url,
+                    categoty: store?.category,
+                  },
+                },
+                `/stores/new`
+              )
+            }
             className="w-full bg-blue-700 hover:bg-blue-500 py-3 text-white font-semibold rounded-b-lg"
           >
-            상세보기
+            기록하기
           </button>
         </>
       )}

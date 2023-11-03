@@ -33,6 +33,8 @@ export default function Map({ lat, lng, zoom }: MapProps) {
       };
       // new kakao.maps.Map(node, options)메서드를 통해서 map을 생성한다.
       const map = new window.kakao.maps.Map(mapContainer, mapOption);
+
+      //리코일에 map을 담아준다.
       setMap(map);
     });
   };
@@ -42,7 +44,8 @@ export default function Map({ lat, lng, zoom }: MapProps) {
       <Script
         strategy="afterInteractive"
         type="text/javascript"
-        src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_CLIENT}&autoload=false`}
+        // src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_CLIENT}&autoload=false`}
+        src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_CLIENT}&libraries=services&autoload=false`}
         onReady={loadKakaoMap}
       />
       <div id="map" className="w-full h-screen"></div>

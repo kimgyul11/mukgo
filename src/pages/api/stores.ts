@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { StoreApiResponse, StoreType } from "@/interface";
 
 import prisma from "@/db";
+import axios from "axios";
 
 interface ResponseType {
   page?: string;
@@ -17,8 +18,22 @@ export default async function handler(
   const { page = "", limit = "", q, district }: ResponseType = req.query;
   if (req.method === "POST") {
     //Post요청
-    const data = req.body;
-    const result = await prisma.store.create({ data: { ...data } });
+    //1.변수 선언
+    const formData = req.body; //new컴포넌트에서 작성해서 보낸 input data
+    const headers = {
+      Authorization: `KakaoAK ${process.env.KAKAO_CLIENT_ID}`, //주소 API로 받은 주소로 위도 경도를 얻기 위해필요한 헤더정보
+    };
+    //2.axios로 get요청 주소를 보내서 위도,경도 가져옴
+    const { data } = await axios.get(
+      `https://dapi.kakao.com/v2/local/search/address.json?query=${encodeURI(
+        formData.address
+      )}`,
+      { headers }
+    );
+    console.log(data);
+    const result = await prisma.store.create({
+      data: { ...formData, lat: data.documents[0].y, lng: data.documents[0].x },
+    });
     return res.status(200).json(result);
   } else {
     //Get요청

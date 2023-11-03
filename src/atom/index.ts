@@ -30,3 +30,14 @@ export const searchState = atom<SearchType | null>({
   key: "search",
   default: null,
 });
+
+//지도 검색 위한 키워드
+export const keyWord = atom<string | null>({
+  key: "keyword",
+  default: null,
+});
+
+export const markersState = atom<any>({
+  key: "markers",
+  default: [],
+});

@@ -8,6 +8,9 @@ export interface StoreType {
   category?: string | null;
   storeType?: string | null;
   foodCertifyName?: string | null;
+  content?: string | null; //추가
+  road_address_name?: string | null; //추가
+  url?: string | null;
 }
 
 export interface StoreApiResponse {
