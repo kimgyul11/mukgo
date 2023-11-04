@@ -7,7 +7,6 @@ import {
 } from "react-icons/ai";
 import { GrMap } from "react-icons/gr";
 import { GiCook } from "react-icons/gi";
-import { StoreType } from "@/interface";
 import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
 import { currentStoreState } from "@/atom";

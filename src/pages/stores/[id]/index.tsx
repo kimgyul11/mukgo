@@ -6,11 +6,15 @@ import Loader from "@/components/Loader";
 import React, { useState } from "react";
 import Map from "@/components/Map";
 import Marker from "@/components/Maker";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
+import { toast } from "react-toastify";
 
 export default function StoreDetailPage() {
   const [map, setMap] = useState(null);
   const router = useRouter();
   const { id } = router.query;
+  const { status } = useSession();
 
   const fetchStore = async () => {
     const { data } = await axios(`/api/stores?id=${id}`);
@@ -37,18 +41,48 @@ export default function StoreDetailPage() {
   if (isFetching) {
     return <Loader className="mt-[20%]" />;
   }
+  const handleDelete = async () => {
+    const ok = window.confirm("정말 삭제하시겠습니까?");
+    if (ok && store) {
+      try {
+        const result = await axios.delete(`/api/stores?id=${store?.id}`);
+        if (result.status === 200) {
+          toast.success("삭제되었습니다");
+          router.replace("/");
+        } else {
+          toast.error("잠시 후 다시 시도해주세요");
+        }
+      } catch (e) {
+        console.log(e);
+        toast.error("다시 시도해주세요");
+      }
+    }
+  };
 
   return (
     <React.Fragment>
       <div className="max-w-5xl mx-auto px-4 py-8">
-        <div className="px-4 sm:px-0">
-          <h3 className="text-base font-semibold leading-7 text-gray-900">
-            {store?.name}
-          </h3>
-          <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">
-            {store?.address}
-          </p>
+        <div className="md:flex justify-between items-center py-4 md:py-0">
+          <div className="px-4 sm:px-0">
+            <h3 className="text-base font-semibold leading-7 text-gray-900">
+              {store?.name}
+            </h3>
+            <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">
+              {store?.address}
+            </p>
+          </div>
+          {status === "authenticated" && (
+            <div className="flex items-center gap-4 px-4 py-3">
+              <Link className="underline" href={`/stores/${store?.id}/edit`}>
+                수정
+              </Link>
+              <button className="underline" onClick={handleDelete}>
+                삭제
+              </button>
+            </div>
+          )}
         </div>
+
         <div className="mt-6 border-t border-gray-100">
           <dl className="divide-y divide-gray-100">
             <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
