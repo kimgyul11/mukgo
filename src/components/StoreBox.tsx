@@ -26,14 +26,14 @@ export default function StoreBox() {
                   src={
                     store?.category
                       ? `/images/markers/${store?.category}.png`
-                      : `images/markers/default.png`
+                      : `/images/markers/default.png`
                   }
                   width={40}
                   height={40}
                   alt="icon image"
                 />
                 <div>
-                  <div className="font-semibold">{store?.content}</div>
+                  <div className="font-semibold">{store?.name}</div>
                   <div className="text-sm">{store?.storeType}</div>
                 </div>
               </div>
@@ -44,7 +44,7 @@ export default function StoreBox() {
             <div className="flex justify-between">
               <div className="mt-2 flex gap-2 items-center col-span-3">
                 <GrMap />
-                {store?.road_address_name || "주소가 없습니다."}
+                {store?.address || "주소가 없습니다."}
               </div>
               <Like storeId={store?.id} />
             </div>
@@ -54,9 +54,9 @@ export default function StoreBox() {
             </div>
             <div className="mt-2 flex gap-2 items-center">
               <AiOutlineInfoCircle />
-              <a href={`${store.url} `} target="_blank">
+              {/* <a href={`${store.url} `} target="_blank">
                 {store?.url}
-              </a>
+              </a> */}
             </div>
             <div className="mt-2 flex gap-2 items-center">
               <GiCook />

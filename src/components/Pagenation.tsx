@@ -4,14 +4,15 @@ import React from "react";
 interface Pagination {
   total: number;
   page: string;
+  pathname: string;
 }
 
-export default function Pagenation({ total, page }: Pagination) {
+export default function Pagenation({ total, page, pathname }: Pagination) {
   return (
     <div className="py-6 w-full px-10 flex justify-center gap-4 bg-white my-10 flex-wrap">
       {total <= 10 ? (
         [...Array(total)].map((_, i) => (
-          <Link href={{ pathname: "/stores", query: { page: i + 1 } }} key={i}>
+          <Link href={{ pathname: pathname, query: { page: i + 1 } }} key={i}>
             <span
               className={`px-3 py-2 rounded border shadow-sm bg-white ${
                 i + 1 === parseInt(page, 10)
@@ -28,7 +29,7 @@ export default function Pagenation({ total, page }: Pagination) {
           {parseInt(page) > 1 && (
             <Link
               href={{
-                pathname: "/stores",
+                pathname: pathname,
                 query: { page: parseInt(page) - 1 },
               }}
             >
@@ -38,7 +39,7 @@ export default function Pagenation({ total, page }: Pagination) {
             </Link>
           )}
 
-          <Link href={{ pathname: "/stores", query: { page: page } }}>
+          <Link href={{ pathname: pathname, query: { page: page } }}>
             <span
               className={`px-3 py-2 rounded border shadow-sm text-gray-700`}
             >
@@ -48,7 +49,7 @@ export default function Pagenation({ total, page }: Pagination) {
           {total > parseInt(page) && (
             <Link
               href={{
-                pathname: "/stores",
+                pathname: pathname,
                 query: { page: parseInt(page) + 1 },
               }}
             >
