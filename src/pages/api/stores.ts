@@ -1,8 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { StoreApiResponse, StoreType } from "@/interface";
-
 import prisma from "@/db";
 import axios from "axios";
+
+import { getServerSession } from "next-auth";
+import { authOptions } from "./auth/[...nextauth]";
 
 interface ResponseType {
   page?: string;
@@ -17,6 +19,8 @@ export default async function handler(
   res: NextApiResponse<StoreApiResponse | StoreType[] | StoreType | null>
 ) {
   const { page = "", limit = "", q, district, id }: ResponseType = req.query;
+  const session = await getServerSession(req, res, authOptions);
+
   if (req.method === "POST") {
     //Post요청
     //1.변수 선언
@@ -87,14 +91,21 @@ export default async function handler(
         totalPage: Math.ceil(count / 10),
       });
     } else {
-      //id가 있으면
+      //로그인이 되어있는지 값을 가져옴
       const { id }: { id?: string } = req.query;
+
       const stores = await prisma.store.findMany({
         orderBy: { id: "asc" },
         where: {
           id: id ? parseInt(id) : {},
         },
+        include: {
+          likes: {
+            where: session ? { userId: session.user.id } : {},
+          },
+        },
       });
+
       return res.status(200).json(id ? stores[0] : stores);
     }
   }

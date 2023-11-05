@@ -8,6 +8,7 @@ import { ImCancelCircle } from "react-icons/im";
 export default function Navbar() {
   const [isShow, setIsShow] = useState(false);
   const { data, status } = useSession();
+  console.log(data);
 
   return (
     <>

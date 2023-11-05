@@ -9,6 +9,7 @@ import Marker from "@/components/Maker";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { toast } from "react-toastify";
+import Like from "@/components/Like";
 
 export default function StoreDetailPage() {
   const [map, setMap] = useState(null);
@@ -26,7 +27,7 @@ export default function StoreDetailPage() {
     isFetching,
     isSuccess,
     isError,
-  } = useQuery(`store=${id}`, fetchStore, {
+  } = useQuery(`store-${id}`, fetchStore, {
     enabled: !!id, //id만 있는 경우에만 쿼리를 날리도록만드는 옵션
     refetchOnWindowFocus: false, //윈도우를 나갔다 들어올때마다 리페칭되는걸 막아줌
   });
@@ -71,8 +72,9 @@ export default function StoreDetailPage() {
               {store?.address}
             </p>
           </div>
-          {status === "authenticated" && (
+          {status === "authenticated" && store && (
             <div className="flex items-center gap-4 px-4 py-3">
+              <Like storeId={store.id} />
               <Link className="underline" href={`/stores/${store?.id}/edit`}>
                 수정
               </Link>

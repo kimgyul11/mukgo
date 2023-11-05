@@ -10,6 +10,7 @@ import { GiCook } from "react-icons/gi";
 import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
 import { currentStoreState } from "@/atom";
+import Like from "./Like";
 
 export default function StoreBox() {
   const router = useRouter();
@@ -40,9 +41,12 @@ export default function StoreBox() {
                 <AiOutlineCloseCircle />
               </button>
             </div>
-            <div className="mt-2 flex gap-2 items-center">
-              <GrMap />
-              {store?.road_address_name}
+            <div className="flex justify-between">
+              <div className="mt-2 flex gap-2 items-center col-span-3">
+                <GrMap />
+                {store?.road_address_name || "주소가 없습니다."}
+              </div>
+              <Like storeId={store?.id} />
             </div>
             <div className="mt-2 flex gap-2 items-center">
               <AiOutlinePhone />
@@ -61,18 +65,19 @@ export default function StoreBox() {
           </div>
           <button
             type="button"
-            onClick={() =>
-              router.push(
-                {
-                  pathname: `/stores/new`,
-                  query: {
-                    name: store?.content,
-                    url: store?.url,
-                    categoty: store?.category,
-                  },
-                },
-                `/stores/new`
-              )
+            onClick={
+              () => router.push(`/stores/${store.id}`)
+              // router.push(
+              //   {
+              //     pathname: `/stores/new`,
+              //     query: {
+              //       name: store?.content,
+              //       url: store?.url,
+              //       categoty: store?.category,
+              //     },
+              //   },
+              //   `/stores/new`
+              // )
             }
             className="w-full bg-blue-700 hover:bg-blue-500 py-3 text-white font-semibold rounded-b-lg"
           >
