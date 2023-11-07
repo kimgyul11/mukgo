@@ -26,10 +26,16 @@ export default function Navbar() {
           <Link href="/users/likes" className="navbar__list--item">
             찜한 가게
           </Link>
+
           {status === "authenticated" ? (
-            <button type="button" onClick={() => signOut()}>
-              로그아웃
-            </button>
+            <>
+              <Link href="/users/mypage" className="navbar__list--item">
+                마이페이지
+              </Link>
+              <button type="button" onClick={() => signOut()}>
+                로그아웃
+              </button>
+            </>
           ) : (
             <Link href="/api/auth/signin" className="navbar__list--item">
               로그인
@@ -46,16 +52,35 @@ export default function Navbar() {
         </div>
       </div>
       {isShow && (
-        <div className="navbar--mobile">
+        <div className="navbar--mobile z-10">
           <div className="navbar__list--mobile">
-            <Link href="/stores" className="navbar__list--item--mobile">
+            <Link
+              href="/stores"
+              className="navbar__list--item--mobile"
+              onClick={() => setIsShow(false)}
+            >
               가게 목록
             </Link>
-            <Link href="/stores/new" className="navbar__list--item--mobile">
+            <Link
+              href="/stores/new"
+              className="navbar__list--item--mobile"
+              onClick={() => setIsShow(false)}
+            >
               기록 하기
             </Link>
-            <Link href="/users/likes" className="navbar__list--item--mobile">
+            <Link
+              href="/users/likes"
+              className="navbar__list--item--mobile"
+              onClick={() => setIsShow(false)}
+            >
               찜한 가게
+            </Link>
+            <Link
+              href="/users/mypage"
+              className="navbar__list--item--mobile"
+              onClick={() => setIsShow(false)}
+            >
+              마이페이지
             </Link>
             {status === "authenticated" ? (
               <button type="button" onClick={() => signOut()}>

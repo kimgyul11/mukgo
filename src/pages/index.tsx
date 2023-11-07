@@ -9,6 +9,7 @@ import axios from "axios";
 import MapSearch from "@/components/MapSearch";
 import { useRecoilValue } from "recoil";
 import { keyWord, mapState } from "@/atom";
+import CurrentLocationButton from "@/components/CurrentLocationButton";
 
 export default function Home({ stores }: { stores: StoreType[] }) {
   // const [markers, setMarkers] = useState<any>([]);
@@ -66,15 +67,15 @@ export default function Home({ stores }: { stores: StoreType[] }) {
       <Map />
       <Markers stores={stores} />
       <StoreBox />
+      <CurrentLocationButton />
     </>
   );
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const stores = await axios(`${process.env.NEXT_PUBLIC_API_URL}/api/stores`);
 
   return {
     props: { stores: stores.data },
-    revalidate: 60 * 60,
   };
 }

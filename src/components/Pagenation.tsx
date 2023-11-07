@@ -2,12 +2,12 @@ import Link from "next/link";
 import React from "react";
 
 interface Pagination {
-  total: number;
+  total?: number;
   page: string;
   pathname: string;
 }
 
-export default function Pagenation({ total, page, pathname }: Pagination) {
+export default function Pagenation({ total = 0, page, pathname }: Pagination) {
   return (
     <div className="py-6 w-full px-10 flex justify-center gap-4 bg-white my-10 flex-wrap">
       {total <= 10 ? (
