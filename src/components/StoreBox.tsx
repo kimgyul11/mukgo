@@ -30,7 +30,7 @@ export default function StoreBox() {
                   src={
                     store?.category_group_name
                       ? `/images/markers/${
-                          store?.category_group_name && "default"
+                          store?.category_group_name || "default"
                         }.png`
                       : `/images/markers/default.png`
                   }
@@ -65,26 +65,25 @@ export default function StoreBox() {
             </div>
             <div className="mt-2 flex gap-2 items-center">
               <GiCook />
-              {store?.category_group_name || "등록된 정보가 없습니다."}
+              {store?.category_name || "등록된 정보가 없습니다."}
             </div>
           </div>
           <button
             type="button"
-            onClick={
-              // () => router.push(`/stores/${store.id}`)
-              () =>
-                router.push(
-                  {
-                    pathname: `/stores/new`,
-                    query: {
-                      name: store?.place_name,
-                      url: store?.place_url,
-                      categoty: store?.category_group_name,
-                    },
+            onClick={() => {
+              setStore(null);
+              router.push(
+                {
+                  pathname: `/stores/new`,
+                  query: {
+                    name: store?.place_name,
+                    url: store?.place_url,
+                    categoty: store?.category_group_name,
                   },
-                  `/stores/new`
-                )
-            }
+                },
+                `/stores/new`
+              );
+            }}
             className="w-full bg-blue-700 hover:bg-blue-500 py-3 text-white font-semibold rounded-b-lg"
           >
             기록하기

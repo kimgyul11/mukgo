@@ -20,6 +20,7 @@ export interface KakaoStoreType {
   address_name?: string;
   phone?: string;
   place_url?: string;
+  category_name?: string;
 }
 export interface LikeInterface {
   id: number;

@@ -17,7 +17,7 @@ export default function Home({ stores }: { stores: StoreType[] }) {
   const keyword = useRecoilValue(keyWordState);
   return (
     <>
-      <div className="w-full h-full min-h-[600px] grid md:grid-cols-2 md:p-4">
+      <div className="w-full h-full min-h-[550px] max-h-[550px] grid md:grid-cols-2 md:p-4">
         <Map />
         <MapContainer />
         <MapSearch />

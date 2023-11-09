@@ -106,7 +106,7 @@ const MapContainer = () => {
       }
     }
 
-    // 검색결과 목록 하단에 페이지 번호 표시
+    // 페이지네이션 만드는 함수
     function displayPagination(pagination: any) {
       var paginationEl: any = document.getElementById("pagination"),
         fragment = document.createDocumentFragment(),
@@ -140,7 +140,7 @@ const MapContainer = () => {
       setPlaces([]);
     };
   }, [map, keyword]);
-  console.log(markersList);
+
   return <></>;
 };
 
