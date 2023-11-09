@@ -10,6 +10,17 @@ export interface StoreType {
   foodCertifyName?: string | null;
   likes?: LikeInterface[];
 }
+export interface KakaoStoreType {
+  id: string;
+  place_name?: string;
+  lat?: string;
+  lng?: string;
+  category_group_name?: string;
+  road_address_name?: string;
+  address_name?: string;
+  phone?: string;
+  place_url?: string;
+}
 export interface LikeInterface {
   id: number;
   storeId: number;

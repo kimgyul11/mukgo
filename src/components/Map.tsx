@@ -2,6 +2,7 @@ import { Dispatch, SetStateAction } from "react";
 import Script from "next/script";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { locationState, mapState } from "@/atom";
+import CurrentLocationButton from "./CurrentLocationButton";
 
 /* global kakao TS */
 declare global {
@@ -48,7 +49,10 @@ export default function Map({ lat, lng, zoom }: MapProps) {
         src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_CLIENT}&libraries=services&autoload=false`}
         onReady={loadKakaoMap}
       />
-      <div id="map" className="w-full h-screen"></div>
+      <div className="w-full h-full relative">
+        <div id="map" className="w-full h-full"></div>
+        <CurrentLocationButton />
+      </div>
     </>
   );
 }

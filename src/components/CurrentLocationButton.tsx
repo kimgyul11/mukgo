@@ -44,7 +44,7 @@ export default function CurrentLocationButton() {
       <button
         type="button"
         onClick={hadnleCurrentPosition}
-        className="fixed z-10 p-2 shadow right-10  bottom-20 text-white  bg-blue-600 rounded-md hover:shadow-lg focus:shadow-lg hover:bg-blue-400 bor"
+        className="absolute z-10 p-2 shadow right-2  bottom-5 text-white  bg-blue-600 rounded-md hover:shadow-lg focus:shadow-lg hover:bg-blue-400 bor"
       >
         <CiLocationOn className="w-7 h-7 " />
       </button>

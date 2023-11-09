@@ -20,7 +20,8 @@ export default async function handler(
   }
   //요청을 받는다.
   if (req.method === "POST") {
-    const { storeId }: { storeId: number } = req.body;
+    const { storeId, store }: { storeId: number; store: any } = req.body;
+    console.log(store);
 
     //Like 데이터를 확인 - 하나의 like는 하나의 유저만 갖기때문에 findFirst
     let like = await prisma.like.findFirst({
@@ -45,8 +46,6 @@ export default async function handler(
       });
       return res.status(201).json(like);
     }
-
-    //like가 없다면 추가
   } else {
     const count = await prisma.like.count({
       where: {

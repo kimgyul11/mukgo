@@ -30,7 +30,8 @@ export default function Like({ storeId }: LikeProps) {
     if (session?.user && store) {
       try {
         const like = await axios.post("/api/likes", {
-          storeId: storeId, //내가 좋아요할 가게의 아이디를 바디에 담아서 보낸다.
+          storeId: storeId,
+          store, //내가 좋아요할 가게의 아이디를 바디에 담아서 보낸다.
         });
         console.log(like);
         if (like.status === 201) {

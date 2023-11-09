@@ -51,3 +51,10 @@
 .infowindow {
   @apply bg-blue-900 text-white block text-center h-6 rounded-sm px-2 leading-6;
 }
+
+.on {
+  @apply bg-blue-500 text-white w-7 h-7 p-2 m-2 rounded-full inline-flex justify-center items-center;
+}
+.paginationBTN {
+  @apply w-7 h-7 p-2 m-2 rounded-full inline-flex justify-center items-center;
+}
