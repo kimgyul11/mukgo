@@ -12,13 +12,21 @@ interface ResponseType {
   q?: string;
   district?: string;
   id?: string;
+  user?: boolean;
 }
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<StoreApiResponse | StoreType[] | StoreType | null>
 ) {
-  const { page = "", limit = "", q, district, id }: ResponseType = req.query;
+  const {
+    page = "",
+    limit = "",
+    q,
+    district,
+    id,
+    user = false,
+  }: ResponseType = req.query;
   const session = await getServerSession(req, res, authOptions);
 
   if (req.method === "POST") {
@@ -92,17 +100,19 @@ export default async function handler(
       });
     } else {
       //로그인이 되어있는지 값을 가져옴
-      const { id }: { id?: string } = req.query;
+      const { id }: { id?: string } = req.query; //3
 
       const stores = await prisma.post.findMany({
         orderBy: { id: "asc" },
         where: {
           id: id ? parseInt(id) : {},
+          userId: user ? session?.user.id : {},
         },
         include: {
           likes: {
             where: session ? { userId: session.user.id } : {},
           },
+          user: true,
         },
       });
 

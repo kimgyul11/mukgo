@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 import { KakaoStoreType, StoreType } from "@/interface";
@@ -33,6 +34,7 @@ export default function StoreDetailPage() {
     enabled: !!id, //id만 있는 경우에만 쿼리를 날리도록만드는 옵션
     refetchOnWindowFocus: false, //윈도우를 나갔다 들어올때마다 리페칭되는걸 막아줌
   });
+  console.log(store?.user?.email);
   if (isError) {
     return (
       <div className="flex justify-center items-center w-full h-screen mt-[-52px] text-red-600 flex-col ">
@@ -61,24 +63,37 @@ export default function StoreDetailPage() {
       }
     }
   };
-  console.log(store?.userId === session?.user.id);
   return (
     <React.Fragment>
       <div className="max-w-5xl mx-auto px-4 py-8">
         <div className="md:flex justify-between items-center py-4 md:py-0">
-          <div className="px-4 sm:px-0">
+          <div className="px-4 sm:px-0 flex">
             <h3 className="text-base font-semibold leading-7 text-gray-900">
               {store?.place_name}
             </h3>
-            <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">
-              {store?.road_address_name}
-            </p>
+            {store && <Like storeId={store.id} />}
           </div>
+          <div className="flex items-center gap-x-6 ">
+            <img
+              className="h-10 w-10 rounded-full"
+              src={`${store?.user?.image}`}
+              alt="profile"
+            />
+            <div>
+              <h3 className="text-sm  font-semibold leading-7 tracking-tight text-gray-900">
+                작성자 / {store?.user?.email}
+              </h3>
+              <p className="text-xs font-semibold leading-6 text-indigo-600">
+                {store?.user?.name}
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="md:flex justify-end items-center md:py-0">
           {status === "authenticated" &&
             store?.userId === session?.user.id &&
             store && (
               <div className="flex items-center gap-4 px-4 py-3">
-                <Like storeId={store.id} />
                 <Link className="underline" href={`/stores/${store?.id}/edit`}>
                   수정
                 </Link>
@@ -89,7 +104,7 @@ export default function StoreDetailPage() {
             )}
         </div>
 
-        <div className="mt-6 border-t border-gray-100">
+        <div className="mt-2 border-t border-gray-100">
           <dl className="divide-y divide-gray-100">
             <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
               <dt className="text-sm font-medium leading-6 text-gray-900">
@@ -159,7 +174,7 @@ export default function StoreDetailPage() {
               </dt>
               <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
                 <div>
-                  <pre>{store?.content}</pre>
+                  <pre className="whitespace-pre-line">{store?.content}</pre>
                 </div>
               </dd>
             </div>

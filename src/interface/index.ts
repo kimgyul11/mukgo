@@ -24,12 +24,13 @@ export interface KakaoStoreType {
   content?: string | null;
   userId: number;
   star?: number | null;
+  user?: UserType;
 }
 export interface LikeInterface {
   id: number;
   storeId: number;
   userId: number;
-  store?: StoreType;
+  store?: KakaoStoreType;
 }
 export interface LikeApiResponse {
   data: LikeInterface[];

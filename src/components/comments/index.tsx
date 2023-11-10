@@ -28,7 +28,7 @@ export default function Comments({ storeId }: CommentProps) {
     `comments-${storeId}-${page}`,
     fetchComments
   );
-
+  console.log(comments);
   return (
     <div className="md:max-w-2xl py-8 px-2 mb-20 mx-auto">
       {/* commentForm */}
