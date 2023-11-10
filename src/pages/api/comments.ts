@@ -29,13 +29,14 @@ export default async function handler(
     if (!session?.user) {
       return res.status(401);
     }
+    const userId: any = session.user.id;
     //댓글 생성
     const { storeId, body }: { storeId: number; body: string } = req.body;
     const comment = await prisma.comment.create({
       data: {
         storeId,
         body,
-        userId: session?.user.id,
+        userId,
       },
     });
     return res.status(200).json(comment);

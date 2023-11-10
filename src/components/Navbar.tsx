@@ -20,9 +20,9 @@ export default function Navbar() {
           <Link href="/stores" className="navbar__list--item">
             가게 목록
           </Link>
-          <Link href="/stores/new" className="navbar__list--item">
+          {/* <Link href="/stores/new" className="navbar__list--item">
             기록 하기
-          </Link>
+          </Link> */}
           <Link href="/users/likes" className="navbar__list--item">
             찜한 가게
           </Link>

@@ -14,9 +14,7 @@ import { KakaoStoreType } from "@/interface";
 
 export default function StoreBox() {
   const router = useRouter();
-  const [store, setStore] = useRecoilState<KakaoStoreType | null>(
-    currentStoreState
-  );
+  const [store, setStore] = useRecoilState<any | null>(currentStoreState);
   console.log(store);
 
   return (
@@ -76,9 +74,7 @@ export default function StoreBox() {
                 {
                   pathname: `/stores/new`,
                   query: {
-                    name: store?.place_name,
-                    url: store?.place_url,
-                    categoty: store?.category_group_name,
+                    ...store,
                   },
                 },
                 `/stores/new`

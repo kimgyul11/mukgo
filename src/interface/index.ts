@@ -11,16 +11,19 @@ export interface StoreType {
   likes?: LikeInterface[];
 }
 export interface KakaoStoreType {
-  id: string;
-  place_name?: string;
-  lat?: string;
-  lng?: string;
-  category_group_name?: string;
-  road_address_name?: string;
-  address_name?: string;
-  phone?: string;
-  place_url?: string;
-  category_name?: string;
+  id: number;
+  place_name?: string | null;
+  lat?: string | null;
+  lng?: string | null;
+  category_group_name?: string | null;
+  road_address_name?: string | null;
+  address_name?: string | null;
+  phone?: string | null;
+  place_url?: string | null;
+  category_name?: string | null;
+  content?: string | null;
+  userId: number;
+  star?: number | null;
 }
 export interface LikeInterface {
   id: number;

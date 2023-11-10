@@ -74,13 +74,12 @@ const MapContainer = () => {
         });
       });
     },
-    [location, map, setCurrentStore, setLocation]
+    [map, setCurrentStore, setLocation]
   );
   useEffect(() => {
     if (!map) {
       return;
     }
-    var infowindow = new window.kakao.maps.InfoWindow({ zIndex: 1 });
 
     const ps = new window.kakao.maps.services.Places();
 
@@ -139,7 +138,7 @@ const MapContainer = () => {
     return () => {
       setPlaces([]);
     };
-  }, [map, keyword]);
+  }, [map, keyword, setPlaceState, removeMarker, displayMarker]);
 
   return <></>;
 };

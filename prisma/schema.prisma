@@ -20,6 +20,7 @@ model User{
   sessions      Session[]
   likes         Like[]
   comments      Comment[]
+  posts         Post[]
 }
 
 model Store{
@@ -32,8 +33,27 @@ model Store{
   category String?
   foodCertifyName String?
   storeType String?
+  // likes         Like[]
+  // comments      Comment[]
+}
+
+model Post{
+  id  Int @id @default(autoincrement())
+  userId Int
+  road_address_name String
+  place_name String
+  phone String?
+  lat   String?
+  lng   String?
+  place_url String?
+  category_group_name   String? //대분류
+  category_name   String? //소분류
+  content   String
+  star  Int
+  user   User   @relation(fields: [userId],references: [id],onDelete: Cascade)
   likes         Like[]
   comments      Comment[]
+  
 }
 
 model Like{
@@ -41,7 +61,7 @@ model Like{
   createdAt DateTime @default(now())
   storeId   Int
   userId    Int
-  store   Store   @relation(fields: [storeId],references: [id],onDelete: Cascade)
+  store   Post   @relation(fields: [storeId],references: [id],onDelete: Cascade)
   user   User   @relation(fields: [userId],references: [id],onDelete: Cascade)
   @@index([userId,storeId])
 }
@@ -52,7 +72,7 @@ model Comment{
   storeId   Int
   userId    Int
   body      String
-  store   Store   @relation(fields: [storeId],references: [id],onDelete: Cascade)
+  store   Post   @relation(fields: [storeId],references: [id],onDelete: Cascade)
   user   User   @relation(fields: [userId],references: [id],onDelete: Cascade)
   @@index([userId,storeId])
 }

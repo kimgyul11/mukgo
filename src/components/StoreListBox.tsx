@@ -1,9 +1,10 @@
-import { StoreType } from "@/interface";
+import { KakaoStoreType, StoreType } from "@/interface";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import Star from "./Star";
 
 interface StoreListProps {
-  store?: StoreType;
+  store?: KakaoStoreType;
   i: number;
 }
 
@@ -17,31 +18,26 @@ export default function StoreList({ store, i }: StoreListProps) {
     >
       <div className="flex gap-x-4">
         <Image
-          src={
-            store?.category
-              ? `/images/markers/${store?.category}.png`
-              : "/images/markers/default.png"
-          }
+          src={`/images/markers/${store?.category_group_name || "defalt"}.png`}
           width={48}
           height={48}
           alt="아이콘 이미지"
         />
         <div>
           <div className="text-sm font-semibold leading-6 text-gray-900">
-            {store?.name}
+            {store?.place_name}
           </div>
           <div className="mt-1 text-xs truncate font-semibold leading-5 text-gray-500">
-            {store?.storeType}
+            {store?.category_name}
           </div>
         </div>
       </div>
       <div className="hidden sm:flex sm:flex-col sm:items-end">
         <div className="text-sm font-semibold leading-6 text-gray-900">
-          {store?.address}
+          {store?.road_address_name}
         </div>
         <div className="mt-1 text-xs truncate font-semibold leading-5 text-gray-500">
-          {store?.phone || "번호없음"} | {store?.foodCertifyName} |{" "}
-          {store?.category}
+          <Star star={store?.star} />
         </div>
       </div>
     </li>

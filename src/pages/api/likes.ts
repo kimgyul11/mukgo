@@ -37,11 +37,11 @@ export default async function handler(
       return res.status(204).json(like);
     } else {
       //like의 추가
-
+      const userId: any = session.user.id;
       like = await prisma.like.create({
         data: {
           storeId,
-          userId: session?.user?.id,
+          userId,
         },
       });
       return res.status(201).json(like);

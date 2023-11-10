@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
-import { StoreType } from "@/interface";
+import { KakaoStoreType, StoreType } from "@/interface";
 import axios from "axios";
 import Loader from "@/components/Loader";
 import React, { useState } from "react";
@@ -11,16 +11,17 @@ import Link from "next/link";
 import { toast } from "react-toastify";
 import Like from "@/components/Like";
 import Comments from "@/components/comments";
+import Star from "@/components/Star";
 
 export default function StoreDetailPage() {
   const [map, setMap] = useState(null);
   const router = useRouter();
   const { id } = router.query;
-  const { status } = useSession();
+  const { status, data: session } = useSession();
 
   const fetchStore = async () => {
     const { data } = await axios(`/api/stores?id=${id}`);
-    return data as StoreType;
+    return data as KakaoStoreType;
   };
 
   const {
@@ -60,30 +61,32 @@ export default function StoreDetailPage() {
       }
     }
   };
-
+  console.log(store?.userId === session?.user.id);
   return (
     <React.Fragment>
       <div className="max-w-5xl mx-auto px-4 py-8">
         <div className="md:flex justify-between items-center py-4 md:py-0">
           <div className="px-4 sm:px-0">
             <h3 className="text-base font-semibold leading-7 text-gray-900">
-              {store?.name}
+              {store?.place_name}
             </h3>
             <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">
-              {store?.address}
+              {store?.road_address_name}
             </p>
           </div>
-          {status === "authenticated" && store && (
-            <div className="flex items-center gap-4 px-4 py-3">
-              <Like storeId={store.id} />
-              <Link className="underline" href={`/stores/${store?.id}/edit`}>
-                수정
-              </Link>
-              <button className="underline" onClick={handleDelete}>
-                삭제
-              </button>
-            </div>
-          )}
+          {status === "authenticated" &&
+            store?.userId === session?.user.id &&
+            store && (
+              <div className="flex items-center gap-4 px-4 py-3">
+                <Like storeId={store.id} />
+                <Link className="underline" href={`/stores/${store?.id}/edit`}>
+                  수정
+                </Link>
+                <button className="underline" onClick={handleDelete}>
+                  삭제
+                </button>
+              </div>
+            )}
         </div>
 
         <div className="mt-6 border-t border-gray-100">
@@ -93,7 +96,7 @@ export default function StoreDetailPage() {
                 카테고리
               </dt>
               <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                {store?.category}
+                {store?.category_name}
               </dd>
             </div>
             <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -101,10 +104,10 @@ export default function StoreDetailPage() {
                 주소
               </dt>
               <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                {store?.address}
+                {store?.road_address_name}
               </dd>
             </div>
-            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+            {/* <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
               <dt className="text-sm font-medium leading-6 text-gray-900">
                 위도
               </dt>
@@ -119,7 +122,7 @@ export default function StoreDetailPage() {
               <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
                 {store?.lng}
               </dd>
-            </div>
+            </div> */}
             <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
               <dt className="text-sm font-medium leading-6 text-gray-900">
                 연락처
@@ -130,18 +133,34 @@ export default function StoreDetailPage() {
             </div>
             <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
               <dt className="text-sm font-medium leading-6 text-gray-900">
-                식품인증구분
+                URL
               </dt>
               <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                {store?.foodCertifyName}
+                <a
+                  href={`${store?.place_url}`}
+                  target="_blank"
+                  className="text-sky-600 underline"
+                >
+                  {store?.place_url}
+                </a>
               </dd>
             </div>
             <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
               <dt className="text-sm font-medium leading-6 text-gray-900">
-                업종명
+                평점
               </dt>
               <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                {store?.storeType}
+                <Star star={store?.star} />
+              </dd>
+            </div>
+            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+              <dt className="text-sm font-medium leading-6 text-gray-900">
+                후기
+              </dt>
+              <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                <div>
+                  <pre>{store?.content}</pre>
+                </div>
               </dd>
             </div>
           </dl>
