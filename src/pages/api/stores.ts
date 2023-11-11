@@ -13,6 +13,7 @@ interface ResponseType {
   district?: string;
   id?: string;
   user?: boolean;
+  starScore?: string;
 }
 
 export default async function handler(
@@ -24,6 +25,7 @@ export default async function handler(
     limit = "",
     q,
     district,
+    starScore,
     id,
     user = false,
   }: ResponseType = req.query;
@@ -33,17 +35,6 @@ export default async function handler(
     //Post요청
     //1.변수 선언
     const formData = req.body; //new컴포넌트에서 작성해서 보낸 input data
-    // const headers = {
-    //   Authorization: `KakaoAK ${process.env.KAKAO_CLIENT_ID}`, //주소 API로 받은 주소로 위도 경도를 얻기 위해필요한 헤더정보
-    // };
-    // //2.axios로 get요청 주소를 보내서 위도,경도 가져옴
-    // const { data } = await axios.get(
-    //   `https://dapi.kakao.com/v2/local/search/address.json?query=${encodeURI(
-    //     formData.address
-    //   )}`,
-    //   { headers }
-    // );
-    //form data =phone , place_name,category_name , place_url id=fromID,content,star
     const result = await prisma.post.create({
       data: { ...formData, userId: session?.user.id },
     });
@@ -82,10 +73,11 @@ export default async function handler(
     if (page) {
       //주소가 있는지,쿼리가 있는지에 따라 조건부 렌더링
       const skipPage = parseInt(page) - 1;
-      const count = await prisma.post.count();
+      const count = await prisma.post.count(); //전체 페이지 수 알기위한 카운트
       const stores = await prisma.post.findMany({
         orderBy: { id: "asc" },
         where: {
+          star: starScore ? { equals: parseInt(starScore) } : {},
           place_name: q ? { contains: q } : {},
           road_address_name: district ? { contains: district } : {},
         },

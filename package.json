@@ -15,6 +15,7 @@
     "@auth/prisma-adapter": "^1.0.5",
     "@prisma/client": "^5.5.2",
     "axios": "^1.6.0",
+    "bcrypt": "^5.1.1",
     "next": "13.5.6",
     "next-auth": "^4.24.4",
     "react": "^18",
@@ -28,6 +29,7 @@
     "recoil": "^0.7.7"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

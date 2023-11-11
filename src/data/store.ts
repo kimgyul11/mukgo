@@ -41,6 +41,13 @@ export const CATEGORY_ARR = [
   "복어취급",
 ];
 
+export const STAR_SCORE = [
+  "⭐️",
+  "⭐️⭐️",
+  "⭐️⭐️⭐️",
+  "⭐️⭐️⭐️⭐️",
+  "⭐️⭐️⭐️⭐️⭐️",
+];
 export const FOOD_CERTIFY_ARR = [
   "비건음식",
   "가족과 함께",

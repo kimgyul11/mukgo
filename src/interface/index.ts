@@ -77,4 +77,5 @@ export interface LocationType {
 export interface SearchType {
   q?: string;
   district?: string;
+  starScore?: string;
 }

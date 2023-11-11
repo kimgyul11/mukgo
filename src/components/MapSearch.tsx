@@ -24,7 +24,6 @@ export default function MapSearch() {
     inputValue = "";
   };
 
-  console.log(placeList);
   return (
     <div id="menu_wrap" className="w-full h-full ">
       <div className="flex justify-center items-center h-8 ">

@@ -3,10 +3,15 @@ import { useSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 interface CommentProps {
-  storeId: number;
-  refetch: () => void;
+  storeId?: number;
+  commentId?: number;
+  refetch?: () => void;
 }
-export default function CommentForm({ storeId, refetch }: CommentProps) {
+export default function CommentForm({
+  storeId,
+  commentId,
+  refetch,
+}: CommentProps) {
   const { status } = useSession();
   const {
     register,
@@ -19,17 +24,20 @@ export default function CommentForm({ storeId, refetch }: CommentProps) {
       {status ? (
         <form
           onSubmit={handleSubmit(async (data) => {
-            const result = await axios.post("/api/comments", {
-              ...data,
-              storeId,
-            });
-
-            if (result.status === 200) {
-              toast.success("댓글을 작성했습니다!");
-              resetField("body");
-              refetch?.();
+            if (commentId) {
             } else {
-              toast.error("다시 시도해주세요!");
+              const result = await axios.post("/api/comments", {
+                ...data,
+                storeId,
+              });
+
+              if (result.status === 200) {
+                toast.success("댓글을 작성했습니다!");
+                resetField("body");
+                refetch?.();
+              } else {
+                toast.error("다시 시도해주세요!");
+              }
             }
           })}
         >

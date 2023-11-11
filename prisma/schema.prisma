@@ -16,11 +16,13 @@ model User{
   name  String?
   emailVerified DateTime?
   image         String?
+  password      String?
   accounts      Account[]
   sessions      Session[]
   likes         Like[]
   comments      Comment[]
   posts         Post[]
+  replies       Reply[]
 }
 
 model Store{
@@ -39,6 +41,7 @@ model Store{
 
 model Post{
   id  Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
   userId Int
   road_address_name String
   place_name String
@@ -74,7 +77,19 @@ model Comment{
   body      String
   store   Post   @relation(fields: [storeId],references: [id],onDelete: Cascade)
   user   User   @relation(fields: [userId],references: [id],onDelete: Cascade)
+  replies Reply[]
   @@index([userId,storeId])
+}
+
+model Reply{
+  id    Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  userId    Int
+  commentId Int
+  body      String
+  user   User   @relation(fields: [userId],references: [id],onDelete: Cascade)
+  comment   Comment   @relation(fields: [commentId],references: [id],onDelete: Cascade)
+  @@index([userId,commentId])
 }
 
 model Account {

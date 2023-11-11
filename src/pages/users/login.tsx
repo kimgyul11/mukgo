@@ -1,3 +1,4 @@
+import SignInButton from "@/components/SignInButton";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -49,6 +50,7 @@ export default function LoginPage() {
             네이버 계정으로 로그인
           </button>
         </div>
+        <SignInButton />
       </div>
     </div>
   );
