@@ -41,12 +41,13 @@ export interface LikeApiResponse {
 
 export interface CommentInterface {
   id: number;
-  storeId: number;
+  storeId?: number;
   userId: number;
   store?: StoreType;
   body: string;
   user?: UserType;
   createdAt: Date;
+  replies?: CommentInterface[];
 }
 export interface UserType {
   id: number;

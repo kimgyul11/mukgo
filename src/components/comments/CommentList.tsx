@@ -6,17 +6,22 @@ import Link from "next/link";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import CommentForm from "./CommentForm";
+import { useRecoilValue } from "recoil";
+import { authorState, currentStoreState } from "@/atom";
 
 interface CommentListProps {
   comments?: CommentApiResponse;
+  refetch: () => void;
   displayStore?: boolean;
 }
 
 export default function CommentList({
   comments,
   displayStore,
+  refetch,
 }: CommentListProps) {
   const [commentForms, setCommentForms] = useState<any>({});
+  const author = useRecoilValue(authorState);
   const { status, data: session } = useSession();
   const handleDeleteComment = async (id: number) => {
     const ok = window.confirm("정말 댓글을 삭제하시겠습니까?");
@@ -39,15 +44,15 @@ export default function CommentList({
       [commentId]: !prevForms[commentId],
     }));
   };
-
   return (
     <div className="my-16">
       {comments?.data && comments?.data?.length > 0 ? (
         comments?.data?.map((comment) => (
           <div
             key={comment.id}
-            className="flex space-x-4 text-sm text-gray-500 bg-blue-100"
+            className="flex space-x-4 text-sm text-gray-500 bg-blue-100 justify-between"
           >
+            {/* 맨왼쪽 */}
             <div>
               <img
                 src={comment?.user?.image || "/images/profile"}
@@ -58,12 +63,18 @@ export default function CommentList({
               ></img>
             </div>
             <div className="flex flex-col space-y-1 w-full bg-red-500">
-              <p>{comment?.user?.email}</p>
+              <div className="flex items-center">
+                <p>{comment?.user?.email}</p>
+                {author === comment.userId && (
+                  <div className="bg-blue-500 text-white text-xs p-1 font-medium rounded-md mx-1">
+                    작성자
+                  </div>
+                )}
+              </div>
               <div className="text-xs">
                 {new Date(comment?.createdAt)?.toLocaleDateString()}
               </div>
               <div className="text-black font-medium mt-1">{comment?.body}</div>
-
               {displayStore && (
                 <div className="mt-2">
                   <Link
@@ -81,11 +92,19 @@ export default function CommentList({
                   </button>
                 </div>
                 {commentForms[comment.id] && (
-                  <CommentForm commentId={comment.id} />
+                  <CommentForm commentId={comment.id} refetch={refetch} />
                 )}
               </div>
+              /
+              <div className="bg-blue-500">
+                {comment.replies &&
+                  comment.replies?.length > 0 &&
+                  comment.replies?.map((item) => {
+                    return <div key={item.id}>{item.body}</div>;
+                  })}
+              </div>
             </div>
-
+            {/* 리코멘트 */}
             <div>
               {comment.userId === session?.user.id && (
                 <button

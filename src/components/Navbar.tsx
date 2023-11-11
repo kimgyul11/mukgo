@@ -7,12 +7,11 @@ import { ImCancelCircle } from "react-icons/im";
 
 export default function Navbar() {
   const [isShow, setIsShow] = useState(false);
-  const { data, status } = useSession();
-  console.log(data);
+  const { status } = useSession();
 
   return (
     <>
-      <div className="navbar">
+      <nav className="navbar">
         <Link href="/" className="navbar__logo">
           로고
         </Link>
@@ -20,9 +19,6 @@ export default function Navbar() {
           <Link href="/stores" className="navbar__list--item">
             가게 목록
           </Link>
-          {/* <Link href="/stores/new" className="navbar__list--item">
-            기록 하기
-          </Link> */}
           <Link href="/users/likes" className="navbar__list--item">
             찜한 가게
           </Link>
@@ -50,7 +46,8 @@ export default function Navbar() {
         >
           {isShow ? <ImCancelCircle /> : <BiMenu />}
         </div>
-      </div>
+      </nav>
+      {/* 반응형 navbar */}
       {isShow && (
         <div className="navbar--mobile z-10">
           <div className="navbar__list--mobile">

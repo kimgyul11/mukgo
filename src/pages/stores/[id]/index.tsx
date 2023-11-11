@@ -1,25 +1,22 @@
 /* eslint-disable @next/next/no-img-element */
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
-import { KakaoStoreType, StoreType } from "@/interface";
+import { KakaoStoreType } from "@/interface";
 import axios from "axios";
 import Loader from "@/components/Loader";
-import React, { useState } from "react";
+import React from "react";
 import Map from "@/components/Map";
 import Marker from "@/components/Maker";
-import { useSession } from "next-auth/react";
-import Link from "next/link";
-import { toast } from "react-toastify";
-import Like from "@/components/Like";
 import Comments from "@/components/comments";
-import Star from "@/components/Star";
+import PostContent from "@/components/post/PostContent";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { authorState } from "@/atom";
 
 export default function StoreDetailPage() {
-  const [map, setMap] = useState(null);
+  const map = useRecoilValue;
   const router = useRouter();
   const { id } = router.query;
-  const { status, data: session } = useSession();
-
+  const setAuthor = useSetRecoilState(authorState);
   const fetchStore = async () => {
     const { data } = await axios(`/api/stores?id=${id}`);
     return data as KakaoStoreType;
@@ -34,7 +31,7 @@ export default function StoreDetailPage() {
     enabled: !!id, //id만 있는 경우에만 쿼리를 날리도록만드는 옵션
     refetchOnWindowFocus: false, //윈도우를 나갔다 들어올때마다 리페칭되는걸 막아줌
   });
-  console.log(store?.user?.email);
+  setAuthor(store?.userId as number);
   if (isError) {
     return (
       <div className="flex justify-center items-center w-full h-screen mt-[-52px] text-red-600 flex-col ">
@@ -46,150 +43,19 @@ export default function StoreDetailPage() {
   if (isFetching) {
     return <Loader className="mt-[20%]" />;
   }
-  const handleDelete = async () => {
-    const ok = window.confirm("정말 삭제하시겠습니까?");
-    if (ok && store) {
-      try {
-        const result = await axios.delete(`/api/stores?id=${store?.id}`);
-        if (result.status === 200) {
-          toast.success("삭제되었습니다");
-          router.replace("/");
-        } else {
-          toast.error("잠시 후 다시 시도해주세요");
-        }
-      } catch (e) {
-        console.log(e);
-        toast.error("다시 시도해주세요");
-      }
-    }
-  };
-  return (
-    <React.Fragment>
-      <div className="max-w-5xl mx-auto px-4 py-8">
-        <div className="md:flex justify-between items-center py-4 md:py-0">
-          <div className="px-4 sm:px-0 flex">
-            <h3 className="text-base font-semibold leading-7 text-gray-900">
-              {store?.place_name}
-            </h3>
-            {store && <Like storeId={store.id} />}
-          </div>
-          <div className="flex items-center gap-x-6 ">
-            <img
-              className="h-10 w-10 rounded-full"
-              src={`${store?.user?.image}`}
-              alt="profile"
-            />
-            <div>
-              <h3 className="text-sm  font-semibold leading-7 tracking-tight text-gray-900">
-                작성자 / {store?.user?.email}
-              </h3>
-              <p className="text-xs font-semibold leading-6 text-indigo-600">
-                {store?.user?.name}
-              </p>
-            </div>
-          </div>
-        </div>
-        <div className="md:flex justify-end items-center md:py-0">
-          {status === "authenticated" &&
-            store?.userId === session?.user.id &&
-            store && (
-              <div className="flex items-center gap-4 px-4 py-3">
-                <Link className="underline" href={`/stores/${store?.id}/edit`}>
-                  수정
-                </Link>
-                <button className="underline" onClick={handleDelete}>
-                  삭제
-                </button>
-              </div>
-            )}
-        </div>
 
-        <div className="mt-2 border-t border-gray-100">
-          <dl className="divide-y divide-gray-100">
-            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-              <dt className="text-sm font-medium leading-6 text-gray-900">
-                카테고리
-              </dt>
-              <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                {store?.category_name}
-              </dd>
-            </div>
-            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-              <dt className="text-sm font-medium leading-6 text-gray-900">
-                주소
-              </dt>
-              <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                {store?.road_address_name}
-              </dd>
-            </div>
-            {/* <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-              <dt className="text-sm font-medium leading-6 text-gray-900">
-                위도
-              </dt>
-              <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                {store?.lat}
-              </dd>
-            </div>
-            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-              <dt className="text-sm font-medium leading-6 text-gray-900">
-                경도
-              </dt>
-              <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                {store?.lng}
-              </dd>
-            </div> */}
-            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-              <dt className="text-sm font-medium leading-6 text-gray-900">
-                연락처
-              </dt>
-              <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                {store?.phone}
-              </dd>
-            </div>
-            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-              <dt className="text-sm font-medium leading-6 text-gray-900">
-                URL
-              </dt>
-              <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                <a
-                  href={`${store?.place_url}`}
-                  target="_blank"
-                  className="text-sky-600 underline"
-                >
-                  {store?.place_url}
-                </a>
-              </dd>
-            </div>
-            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-              <dt className="text-sm font-medium leading-6 text-gray-900">
-                평점
-              </dt>
-              <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                <Star star={store?.star} />
-              </dd>
-            </div>
-            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-              <dt className="text-sm font-medium leading-6 text-gray-900">
-                후기
-              </dt>
-              <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                <div>
-                  <pre className="whitespace-pre-line">{store?.content}</pre>
-                </div>
-              </dd>
-            </div>
-          </dl>
-        </div>
-      </div>
+  return (
+    <>
+      <PostContent store={store} />
       {isSuccess && (
         <>
-          <div className="overflow-hidden w-full mb-20 max-w-5xl mx-auto max-h-[600px]">
+          <div className="w-full mb-20 max-w-5xl h-[350px] mx-auto ">
             <Map lat={store?.lat} lng={store.lng} zoom={1} />
             <Marker map={map} store={store} />
           </div>
-          <Comments storeId={store.id} />
         </>
       )}
-    </React.Fragment>
+      <Comments storeId={store?.id} />
+    </>
   );
 }

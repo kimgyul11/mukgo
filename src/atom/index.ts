@@ -53,3 +53,9 @@ export const placesState = atom<any>({
   key: "places",
   default: [],
 });
+
+//게시글 작성자 확인을 위한 아톰
+export const authorState = atom<number>({
+  key: "author",
+  default: 0,
+});

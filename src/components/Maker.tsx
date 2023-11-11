@@ -1,11 +1,11 @@
 import { mapState } from "@/atom";
-import { StoreType } from "@/interface";
+import { KakaoStoreType, StoreType } from "@/interface";
 import { useEffect, useCallback } from "react";
 import { useRecoilValue } from "recoil";
 
 interface MarkerProps {
   map: any;
-  store: StoreType;
+  store: KakaoStoreType;
 }
 export default function Marker({ store }: MarkerProps) {
   const map = useRecoilValue(mapState); //전역객체에서 가져와서 사용
@@ -13,8 +13,8 @@ export default function Marker({ store }: MarkerProps) {
     //지도가 있는 경우에만 수행해야한다.
     if (map && store) {
       //1.현재 선택한 식당 데이터 마커 띄우기
-      var imageSrc = store?.category
-          ? `/images/markers/${store?.category}.png`
+      var imageSrc = store?.category_group_name
+          ? `/images/markers/${store?.category_group_name}.png`
           : "/images/markers/default.png",
         imageSize = new window.kakao.maps.Size(40, 40), // 마커이미지 크기
         imageOption = { offset: new window.kakao.maps.Point(27, 69) }; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다
@@ -40,7 +40,7 @@ export default function Marker({ store }: MarkerProps) {
 
       //6.오버레이 구성하기
       //마커 커서 오버시 마커 위에 표시할 인포 윈도우를 생성
-      var content = `<div class="infowindow">${store?.name}</div>`;
+      var content = `<div class="infowindow">${store?.place_name}</div>`;
 
       //커스텀 오버레이 생성
       var customOverlay = new window.kakao.maps.CustomOverlay({

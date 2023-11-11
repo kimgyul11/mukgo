@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 interface CommentProps {
   storeId?: number;
   commentId?: number;
-  refetch?: () => void;
+  refetch: () => void;
 }
 export default function CommentForm({
   storeId,
@@ -20,11 +20,22 @@ export default function CommentForm({
     formState: { errors },
   } = useForm();
   return (
-    <>
+    <div className="w-full">
       {status ? (
         <form
           onSubmit={handleSubmit(async (data) => {
             if (commentId) {
+              const result = await axios.post("/api/comments", {
+                ...data,
+                commentId,
+              });
+              if (result.status === 200) {
+                toast.success("답글을 작성했습니다!");
+                resetField("body");
+                refetch?.();
+              } else {
+                toast.error("다시 시도해주세요!");
+              }
             } else {
               const result = await axios.post("/api/comments", {
                 ...data,
@@ -60,6 +71,6 @@ export default function CommentForm({
       ) : (
         <p>로그인 유저만 댓글을 작성할 수 있습니다!</p>
       )}
-    </>
+    </div>
   );
 }

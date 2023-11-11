@@ -9,7 +9,7 @@ import CommentList from "./CommentList";
 import Pagenation from "../Pagenation";
 
 interface CommentProps {
-  storeId: number;
+  storeId?: number;
 }
 
 export default function Comments({ storeId }: CommentProps) {
@@ -28,14 +28,19 @@ export default function Comments({ storeId }: CommentProps) {
     `comments-${storeId}-${page}`,
     fetchComments
   );
-  console.log(comments);
   return (
     <div className="md:max-w-2xl py-8 px-2 mb-20 mx-auto">
       {/* commentForm */}
-      <CommentForm storeId={storeId} refetch={refetch} />
-
+      <div className="flex w-full border p-4 rounded-md">
+        <img
+          src={`${session?.user.image}`}
+          alt="profile"
+          className="w-12 h-12 rounded-full mx-2"
+        />
+        <CommentForm storeId={storeId} refetch={refetch} />
+      </div>
       {/* commentList */}
-      <CommentList comments={comments} />
+      <CommentList comments={comments} refetch={refetch} />
 
       {/* 페이지네이션 구현하기 */}
 

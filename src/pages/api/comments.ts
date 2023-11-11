@@ -10,6 +10,7 @@ interface ResponseType {
   limit?: string;
   storeId?: string;
   user?: boolean;
+  commentId?: string;
 }
 
 export default async function handler(
@@ -26,20 +27,41 @@ export default async function handler(
   }: ResponseType = req.query;
 
   if (req.method === "POST") {
+    //1.유저있는지 확인
     if (!session?.user) {
       return res.status(401);
     }
+
     const userId: any = session.user.id;
-    //댓글 생성
-    const { storeId, body }: { storeId: number; body: string } = req.body;
-    const comment = await prisma.comment.create({
-      data: {
-        storeId,
-        body,
-        userId,
-      },
-    });
-    return res.status(200).json(comment);
+    const {
+      commentId,
+      body,
+      storeId,
+    }: { commentId: number; body: string; storeId: number } = req.body;
+    console.log(storeId, commentId, body, userId);
+
+    //2.commentId가 있다면 reply
+    if (commentId) {
+      const result = await prisma.reply.create({
+        data: {
+          commentId,
+          body,
+          userId,
+        },
+      });
+      return res.status(200).json(result);
+    } else {
+      //3.commentID가 없으면 post 답글작성
+      // const { storeId, body }: { storeId: number; body: string } = req.body;
+      const comment = await prisma.comment.create({
+        data: {
+          storeId,
+          body,
+          userId,
+        },
+      });
+      return res.status(200).json(comment);
+    }
   } else if (req.method === "DELETE") {
     //댓글 삭제
     if (!session?.user) {
@@ -73,7 +95,7 @@ export default async function handler(
       },
       skip: skipPage * parseInt(limit),
       take: parseInt(limit),
-      include: { user: true, store: true },
+      include: { user: true, store: true, replies: true },
     });
     return res.status(200).json({
       data: comments,
