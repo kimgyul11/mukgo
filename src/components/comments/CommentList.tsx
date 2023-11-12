@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { CommentApiResponse } from "@/interface";
+import { CommentApiResponse, ReplyInterface } from "@/interface";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import CommentForm from "./CommentForm";
 import { useRecoilValue } from "recoil";
 import { authorState, currentStoreState } from "@/atom";
+import Reply from "./Reply";
 
 interface CommentListProps {
   comments?: CommentApiResponse;
@@ -50,19 +51,19 @@ export default function CommentList({
         comments?.data?.map((comment) => (
           <div
             key={comment.id}
-            className="flex space-x-4 text-sm text-gray-500 bg-blue-100 justify-between"
+            className="flex space-x-4 text-sm text-gray-500  justify-between mt-2 border-b pb-3"
           >
             {/* 맨왼쪽 */}
             <div>
               <img
-                src={comment?.user?.image || "/images/profile"}
+                src={comment?.user?.image || "/images/profile.png"}
                 width={40}
                 height={40}
                 className="rounded-full bg-gray-10"
                 alt="profile"
               ></img>
             </div>
-            <div className="flex flex-col space-y-1 w-full bg-red-500">
+            <div className="flex flex-col  w-full ">
               <div className="flex items-center">
                 <p>{comment?.user?.email}</p>
                 {author === comment.userId && (
@@ -74,7 +75,7 @@ export default function CommentList({
               <div className="text-xs">
                 {new Date(comment?.createdAt)?.toLocaleDateString()}
               </div>
-              <div className="text-black font-medium mt-1">{comment?.body}</div>
+              <div className="text-black font-medium mt-2">{comment?.body}</div>
               {displayStore && (
                 <div className="mt-2">
                   <Link
@@ -87,29 +88,37 @@ export default function CommentList({
               )}
               <div>
                 <div>
-                  <button onClick={() => handleToggleForm(comment.id)}>
+                  <button
+                    onClick={() => handleToggleForm(comment.id)}
+                    className="text-xs "
+                  >
                     답글 쓰기
                   </button>
                 </div>
                 {commentForms[comment.id] && (
-                  <CommentForm commentId={comment.id} refetch={refetch} />
+                  <CommentForm
+                    commentId={comment.id}
+                    refetch={refetch}
+                    handleToggleForm={handleToggleForm}
+                  />
                 )}
               </div>
-              /
-              <div className="bg-blue-500">
+
+              <div className="border-l-4">
                 {comment.replies &&
                   comment.replies?.length > 0 &&
                   comment.replies?.map((item) => {
-                    return <div key={item.id}>{item.body}</div>;
+                    return <Reply reply={item} />;
                   })}
               </div>
             </div>
-            {/* 리코멘트 */}
+
             <div>
               {comment.userId === session?.user.id && (
                 <button
                   type="button"
                   onClick={() => handleDeleteComment(comment.id)}
+                  className="w-8"
                 >
                   삭제
                 </button>

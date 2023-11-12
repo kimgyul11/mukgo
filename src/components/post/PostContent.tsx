@@ -32,11 +32,19 @@ export default function PostContent({ store }: PostContentProps) {
       }
     }
   };
+  const options = {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  };
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
       <div className="md:flex justify-between items-center py-4 md:py-0">
         <div className="px-4 sm:px-0 flex">
-          <h3 className="text-base font-semibold leading-7 text-gray-900">
+          <h3 className="text-xl font-semibold leading-7 text-gray-900 mx-2">
             {store?.place_name}
           </h3>
           {store && <Like storeId={store.id} />}
@@ -44,15 +52,19 @@ export default function PostContent({ store }: PostContentProps) {
         <div className="flex items-center gap-x-6 ">
           <img
             className="h-10 w-10 rounded-full"
-            src={`${store?.user?.image}`}
+            src={`${store?.user?.image || "/images/profile.png"}`}
             alt="profile"
           />
           <div>
-            <h3 className="text-sm  font-semibold leading-7 tracking-tight text-gray-900">
+            <h3 className="text-sm  font-semibold  tracking-tight text-gray-900 ">
               작성자 / {store?.user?.email}
             </h3>
-            <p className="text-xs font-semibold leading-6 text-indigo-600">
-              {store?.user?.name}
+            <p className="text-xs font-semibold leading-2 text-gray-400 float-right">
+              {store &&
+                new Date(store?.createdAt)?.toLocaleDateString(
+                  "ko-KR",
+                  options as any
+                )}
             </p>
           </div>
         </div>
@@ -75,7 +87,7 @@ export default function PostContent({ store }: PostContentProps) {
       <div className="mt-2 border-t border-gray-100">
         <dl className="divide-y divide-gray-100">
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt className="text-sm font-medium leading-6 text-gray-900">
+            <dt className="text-sm leading-6 text-gray-900 font-bold">
               카테고리
             </dt>
             <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
@@ -83,16 +95,14 @@ export default function PostContent({ store }: PostContentProps) {
             </dd>
           </div>
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt className="text-sm font-medium leading-6 text-gray-900">
-              주소
-            </dt>
+            <dt className="text-sm font-bold leading-6 text-gray-900">주소</dt>
             <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
               {store?.road_address_name}
             </dd>
           </div>
 
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt className="text-sm font-medium leading-6 text-gray-900">
+            <dt className="text-sm font-bold leading-6 text-gray-900">
               연락처
             </dt>
             <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
@@ -112,17 +122,13 @@ export default function PostContent({ store }: PostContentProps) {
             </dd>
           </div>
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt className="text-sm font-medium leading-6 text-gray-900">
-              평점
-            </dt>
+            <dt className="text-sm font-bold leading-6 text-gray-900">평점</dt>
             <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
               <Star star={store?.star} />
             </dd>
           </div>
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt className="text-sm font-medium leading-6 text-gray-900">
-              후기
-            </dt>
+            <dt className="text-sm font-bold leading-6 text-gray-900">후기</dt>
             <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
               <div>
                 <pre className="whitespace-pre-line">{store?.content}</pre>

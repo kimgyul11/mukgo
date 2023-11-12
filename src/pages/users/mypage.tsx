@@ -80,21 +80,21 @@ export default function Mypage() {
           </div>
         </dl>
       </div>
-      <div className="mt-8 px-4 sm:px-0">
+      {/* <div className="mt-8 px-4 sm:px-0">
         <h3 className="text-base font-semibold leading-7 text-gray-900">
           내가 쓴 댓글
         </h3>
         <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">
           댓글 리스트
         </p>
-      </div>
-      <CommentList comments={comments} displayStore={true} />
+      </div> */}
+      {/* <CommentList comments={comments} displayStore={true} /> */}
 
-      <Pagenation
+      {/* <Pagenation
         total={comments?.totalPage}
         page={page}
         pathname="/users/mypage"
-      />
+      /> */}
     </div>
   );
 }

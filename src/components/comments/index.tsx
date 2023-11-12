@@ -28,17 +28,14 @@ export default function Comments({ storeId }: CommentProps) {
     `comments-${storeId}-${page}`,
     fetchComments
   );
+
   return (
     <div className="md:max-w-2xl py-8 px-2 mb-20 mx-auto">
       {/* commentForm */}
-      <div className="flex w-full border p-4 rounded-md">
-        <img
-          src={`${session?.user.image}`}
-          alt="profile"
-          className="w-12 h-12 rounded-full mx-2"
-        />
+      <div className="w-full border p-4 rounded-md relative">
         <CommentForm storeId={storeId} refetch={refetch} />
       </div>
+
       {/* commentList */}
       <CommentList comments={comments} refetch={refetch} />
 

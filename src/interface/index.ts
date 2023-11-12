@@ -25,6 +25,7 @@ export interface KakaoStoreType {
   userId: number;
   star?: number | null;
   user?: UserType;
+  createdAt: Date;
 }
 export interface LikeInterface {
   id: number;
@@ -49,6 +50,14 @@ export interface CommentInterface {
   createdAt: Date;
   replies?: CommentInterface[];
 }
+export interface ReplyInterface {
+  id: number;
+  createdAt: Date;
+  body: string;
+  commentId?: number;
+  user?: UserType;
+}
+
 export interface UserType {
   id: number;
   email: string;

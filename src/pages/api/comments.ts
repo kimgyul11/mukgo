@@ -2,7 +2,11 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./auth/[...nextauth]";
 import prisma from "@/db";
-import { CommentApiResponse, CommentInterface } from "@/interface";
+import {
+  CommentApiResponse,
+  CommentInterface,
+  ReplyInterface,
+} from "@/interface";
 
 interface ResponseType {
   id?: string;
@@ -15,7 +19,9 @@ interface ResponseType {
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<CommentInterface | CommentApiResponse>
+  res: NextApiResponse<
+    CommentInterface | CommentApiResponse | ReplyInterface[] | any
+  >
 ) {
   const session = await getServerSession(req, res, authOptions);
   const {
@@ -24,6 +30,7 @@ export default async function handler(
     limit = "10",
     storeId = "",
     user = false,
+    commentId = "",
   }: ResponseType = req.query;
 
   if (req.method === "POST") {
@@ -75,11 +82,9 @@ export default async function handler(
     return res.status(200).json(result);
   } else {
     //CommentList요청
-
     const skipPage = parseInt(page) - 1; //처음 시작 페이지가 1이므로 첫 번째 페이지가 스킵되지 않게하려고 -1을 한다.
 
     //1.총 댓글 수 가져오기
-
     const count = await prisma.comment.count({
       where: {
         storeId: storeId ? parseInt(storeId) : {},
@@ -95,8 +100,13 @@ export default async function handler(
       },
       skip: skipPage * parseInt(limit),
       take: parseInt(limit),
-      include: { user: true, store: true, replies: true },
+      include: {
+        user: true,
+        store: true,
+        replies: { include: { user: true } },
+      },
     });
+
     return res.status(200).json({
       data: comments,
       page: parseInt(page),

@@ -9,18 +9,29 @@ import { authOptions } from "./auth/[...nextauth]";
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<StoreApiResponse | StoreType[] | StoreType | null>
+  res: NextApiResponse<any>
 ) {
   if (req.method === "POST") {
     const body = req.body;
-
-    const result = await prisma.user.create({
-      data: {
-        name: body.name,
+    console.log(body);
+    const check = await prisma.user.findFirst({
+      where: {
         email: body.email,
-        password: await bcrypt.hash(body.password, 10),
       },
     });
-    return res.status(200).json(result);
+    if (check) {
+      return res
+        .status(400)
+        .json({ errorMessage: "Email is associated with another account" });
+    } else {
+      const result = await prisma.user.create({
+        data: {
+          name: body.name,
+          email: body.email,
+          password: await bcrypt.hash(body.password, 10),
+        },
+      });
+      return res.status(200).json(result);
+    }
   }
 }
