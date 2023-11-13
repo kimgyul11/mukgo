@@ -2,7 +2,9 @@ import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useState } from "react";
 
-import { BiMenu } from "react-icons/bi";
+import { BiMenu, BiLogOut } from "react-icons/bi";
+import { GrContactInfo } from "react-icons/gr";
+import { BsBookmarkHeart, BsSearch } from "react-icons/bs";
 import { ImCancelCircle } from "react-icons/im";
 
 export default function Navbar() {
@@ -13,28 +15,28 @@ export default function Navbar() {
     <>
       <nav className="navbar">
         <Link href="/" className="navbar__logo">
-          로고
+          MUKGO
         </Link>
         <div className="navbar__list">
           <Link href="/stores" className="navbar__list--item">
-            가게 목록
+            <BsSearch className="text-xl" />
           </Link>
           <Link href="/users/likes" className="navbar__list--item">
-            찜한 가게
+            <BsBookmarkHeart className="text-xl" />
           </Link>
 
           {status === "authenticated" ? (
             <>
               <Link href="/users/mypage" className="navbar__list--item">
-                마이페이지
+                <GrContactInfo className="text-xl" />
               </Link>
               <button type="button" onClick={() => signOut()}>
-                로그아웃
+                <BiLogOut className="text-red-400 text-xl" />
               </button>
             </>
           ) : (
             <Link href="/api/auth/signin" className="navbar__list--item">
-              로그인
+              Login
             </Link>
           )}
         </div>

@@ -1,16 +1,33 @@
 import { authorState } from "@/atom";
 import { ReplyInterface } from "@/interface";
 import axios from "axios";
+import { useSession } from "next-auth/react";
 
 import React from "react";
 import { useQuery } from "react-query";
+import { toast } from "react-toastify";
 import { useRecoilValue } from "recoil";
 interface ReplyProps {
   reply: ReplyInterface;
 }
 export default function Reply({ reply }: ReplyProps) {
   const author = useRecoilValue(authorState);
-
+  const { status, data: session } = useSession();
+  const handleDeleteComment = async (id: number) => {
+    const ok = window.confirm("정말 댓글을 삭제하시겠습니까?");
+    if (ok) {
+      try {
+        const result = await axios.delete(`/api/comments?replyId=${reply.id}`);
+        if (result.status === 200) {
+          toast.success("삭제완료");
+        } else {
+          toast.error("에러");
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  };
   return (
     <div className="flex text-sm text-gray-500  justify-between items-center mt-2">
       <div className="flex w-full m-3">
@@ -32,7 +49,17 @@ export default function Reply({ reply }: ReplyProps) {
               </div>
             )}
           </div>
-
+          <div>
+            {reply.userId === session?.user.id && (
+              <button
+                type="button"
+                onClick={() => handleDeleteComment(reply.id)}
+                className="w-8"
+              >
+                삭제
+              </button>
+            )}
+          </div>
           <div className="text-xs">
             {new Date(reply?.createdAt)?.toLocaleDateString()}
           </div>

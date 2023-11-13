@@ -30,9 +30,9 @@ export default function Comments({ storeId }: CommentProps) {
   );
 
   return (
-    <div className="md:max-w-2xl py-8 px-2 mb-20 mx-auto">
+    <div className="md:max-w-2xl py-8 px-2 mb-20  mx-auto">
       {/* commentForm */}
-      <div className="w-full border p-4 rounded-md relative">
+      <div className="w-full border p-4 rounded-md relative mt-16">
         <CommentForm storeId={storeId} refetch={refetch} />
       </div>
 

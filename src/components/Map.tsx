@@ -50,7 +50,10 @@ export default function Map({ lat, lng, zoom }: MapProps) {
         onReady={loadKakaoMap}
       />
       <div className="w-full h-full relative">
-        <div id="map" className="w-full h-full"></div>
+        <div
+          id="map"
+          className="w-full h-full md:min-h-[500px] min-h-[300px]"
+        ></div>
         <CurrentLocationButton />
       </div>
     </>

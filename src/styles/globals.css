@@ -3,11 +3,11 @@
 @tailwind utilities;
 
 .layout {
-  @apply pt-[52px] max-w-[1500px] m-auto;
+  @apply pt-[52px] max-w-7xl m-auto;
 }
 
 .navbar {
-  @apply flex justify-between items-center  w-full h-[52px] top-0 shadow-sm bg-white fixed max-w-[1500px] z-[100];
+  @apply flex justify-between items-center  w-full h-[52px] top-0  bg-white fixed max-w-7xl z-[5];
 }
 .navbar__logo {
   @apply text-lg font-semibold cursor-pointer px-[18px] py-0;

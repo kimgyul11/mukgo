@@ -21,7 +21,7 @@ export default function Signup({ setToggle }: SignupProps) {
     <>
       <div className="sm:mx-auto sm:w-full sm:max-w-sm mt-14">
         <h2 className=" text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-          회원가입 페이지
+          Signup
         </h2>
       </div>
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
@@ -64,7 +64,7 @@ export default function Signup({ setToggle }: SignupProps) {
                 type="email"
                 placeholder="Email"
                 onBlur={() => setErrorEmail("")}
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="block p-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>
             {errorEmail && (
@@ -92,8 +92,9 @@ export default function Signup({ setToggle }: SignupProps) {
                   required: true,
                   pattern: passwordRegex,
                 })}
+                placeholder="password"
                 type="password"
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="block w-full p-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>
             {errors?.password?.type === "required" && (
@@ -118,9 +119,10 @@ export default function Signup({ setToggle }: SignupProps) {
             <div className="mt-1">
               <input
                 {...register("name", { required: true, minLength: 2 })}
+                placeholder="nickname"
                 id="password"
                 type="text"
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="block w-full p-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>
             {errors?.name?.type === "required" && (

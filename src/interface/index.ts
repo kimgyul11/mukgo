@@ -52,6 +52,7 @@ export interface CommentInterface {
 }
 export interface ReplyInterface {
   id: number;
+  userId?: number;
   createdAt: Date;
   body: string;
   commentId?: number;

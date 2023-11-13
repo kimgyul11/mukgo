@@ -14,7 +14,7 @@ interface ResponseType {
   limit?: string;
   storeId?: string;
   user?: boolean;
-  commentId?: string;
+  replyId?: string;
 }
 
 export default async function handler(
@@ -28,9 +28,9 @@ export default async function handler(
     id = "",
     page = "1",
     limit = "10",
+    replyId = "",
     storeId = "",
     user = false,
-    commentId = "",
   }: ResponseType = req.query;
 
   if (req.method === "POST") {
@@ -74,12 +74,21 @@ export default async function handler(
     if (!session?.user) {
       return res.status(401);
     }
-    const result = await prisma.comment.delete({
-      where: {
-        id: parseInt(id),
-      },
-    });
-    return res.status(200).json(result);
+    if (replyId) {
+      const result = await prisma.reply.delete({
+        where: {
+          id: parseInt(replyId),
+        },
+      });
+      return res.status(200).json(result);
+    } else {
+      const result = await prisma.comment.delete({
+        where: {
+          id: parseInt(id),
+        },
+      });
+      return res.status(200).json(result);
+    }
   } else {
     //CommentList요청
     const skipPage = parseInt(page) - 1; //처음 시작 페이지가 1이므로 첫 번째 페이지가 스킵되지 않게하려고 -1을 한다.

@@ -1,3 +1,4 @@
+import FullPageLoader from "@/components/FullPageLoader";
 import Loading from "@/components/Loading";
 import Pagenation from "@/components/Pagenation";
 import StoreList from "@/components/StoreListBox";
@@ -17,26 +18,29 @@ export default function LikesPage() {
   };
 
   const { data: likes, isLoading } = useQuery(`likes-${page}`, fetchLikes);
-
+  if (isLoading) {
+    return <FullPageLoader />;
+  }
   return (
     <div className="px-4 md:max-w-5xl mx-auto py-8">
       <h3 className="text-lg font-semibold">좋아요한 가게</h3>
-      <div className="mt-1 text-gray-500 text-sm">리스트를 표시</div>
+      <div className="mt-1 text-gray-500 text-sm border-b pb-2">
+        가게 리스트를 표시합니다.
+      </div>
+
       <ul role="list" className="divide-y divide-gray-100 mt-10">
-        {isLoading ? (
-          <Loading />
-        ) : (
-          likes?.data.map((like: LikeInterface, index) => (
-            <StoreList i={index} store={like.store} key={index} />
-          ))
-        )}
+        {likes?.data.map((like: LikeInterface, index) => (
+          <StoreList i={index} store={like.store} key={index} />
+        ))}
       </ul>
-      {likes?.totalPage && likes?.totalPage > 0 && (
+      {likes?.totalPage && likes?.totalPage > 0 ? (
         <Pagenation
           total={likes?.totalPage}
           page={page}
           pathname="/users/likes"
         />
+      ) : (
+        <p>좋아요한 게시글이 없습니다!</p>
       )}
     </div>
   );
