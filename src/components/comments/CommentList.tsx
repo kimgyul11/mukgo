@@ -112,7 +112,7 @@ export default function CommentList({
                 {comment.replies &&
                   comment.replies?.length > 0 &&
                   comment.replies?.map((item) => {
-                    return <Reply reply={item} />;
+                    return <Reply reply={item} key={item.id} />;
                   })}
               </div>
             </div>

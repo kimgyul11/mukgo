@@ -1,6 +1,5 @@
 import { searchState } from "@/atom";
-import { DISTRICT_ARR, STAR_SCORE } from "@/data/store";
-import { Dispatch, SetStateAction } from "react";
+import { STAR_SCORE } from "@/data/store";
 import { GoSearch } from "react-icons/go";
 import { useRecoilState } from "recoil";
 

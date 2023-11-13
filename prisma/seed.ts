@@ -1,5 +1,4 @@
 import { PrismaClient } from "@prisma/client";
-import * as data from "../src/data/seoulStoreData.json";
 
 const prisma = new PrismaClient();
 
