@@ -1,6 +1,4 @@
-import AddressSearch from "@/components/AddressSearch";
-import { CATEGORY_ARR, FOOD_CERTIFY_ARR, STORE_TYPE_ARR } from "@/data/store";
-import { KakaoStoreType, StoreType } from "@/interface";
+import { KakaoStoreType } from "@/interface";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -67,7 +65,6 @@ export default function StoreNewPage() {
     <form
       className="px-4 md:max-w-4xl mx-auto py-8"
       onSubmit={handleSubmit(async (data) => {
-        console.log(data, session?.user.id);
         try {
           const result = await axios.post("/api/stores", { ...data });
           console.log(result);
@@ -107,7 +104,7 @@ export default function StoreNewPage() {
                   type="text"
                   readOnly
                   {...register("place_name", { required: true })}
-                  className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 outline-none ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="block w-full outline-none rounded-md border-none py-1.5 px-1.5 text-gray-400 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
@@ -123,7 +120,7 @@ export default function StoreNewPage() {
                   type="text"
                   readOnly
                   {...register("category_name", { required: true })}
-                  className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 outline-none ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="block w-full outline-none rounded-md border-none py-1.5 px-1.5 text-gray-400 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
@@ -135,7 +132,8 @@ export default function StoreNewPage() {
               <div className="mt-2">
                 <input
                   {...register("phone")}
-                  className="block w-full outline-none rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="block w-full outline-none rounded-md border-none py-1.5 px-1.5 text-gray-400 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
+                  readOnly
                 />
               </div>
             </div>

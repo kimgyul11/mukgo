@@ -9,6 +9,7 @@ import CommentForm from "./CommentForm";
 import { useRecoilValue } from "recoil";
 import { authorState, currentStoreState } from "@/atom";
 import Reply from "./Reply";
+import { DATE_OPTIONS } from "@/data/store";
 
 interface CommentListProps {
   comments?: CommentApiResponse;
@@ -73,7 +74,10 @@ export default function CommentList({
                 )}
               </div>
               <div className="text-xs">
-                {new Date(comment?.createdAt)?.toLocaleDateString()}
+                {new Date(comment?.createdAt)?.toLocaleDateString(
+                  "ko-KR",
+                  DATE_OPTIONS as any
+                )}
               </div>
               <div className="text-black font-medium mt-2">{comment?.body}</div>
               {displayStore && (

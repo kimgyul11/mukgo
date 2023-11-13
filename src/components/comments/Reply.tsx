@@ -1,10 +1,10 @@
 import { authorState } from "@/atom";
+import { DATE_OPTIONS } from "@/data/store";
 import { ReplyInterface } from "@/interface";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 
 import React from "react";
-import { useQuery } from "react-query";
 import { toast } from "react-toastify";
 import { useRecoilValue } from "recoil";
 interface ReplyProps {
@@ -49,6 +49,12 @@ export default function Reply({ reply }: ReplyProps) {
               </div>
             )}
           </div>
+          <div className="text-xs">
+            {new Date(reply?.createdAt)?.toLocaleDateString(
+              "ko-KR",
+              DATE_OPTIONS as any
+            )}
+          </div>
           <div>
             {reply.userId === session?.user.id && (
               <button
@@ -59,9 +65,6 @@ export default function Reply({ reply }: ReplyProps) {
                 삭제
               </button>
             )}
-          </div>
-          <div className="text-xs">
-            {new Date(reply?.createdAt)?.toLocaleDateString()}
           </div>
           <div className="text-black font-medium mt-2">{reply?.body}</div>
         </div>

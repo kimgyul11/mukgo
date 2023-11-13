@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import Pagenation from "@/components/Pagenation";
-import CommentList from "@/components/comments/CommentList";
-import { CommentApiResponse } from "@/interface";
+import { DATE_OPTIONS } from "@/data/store";
+import { CommentApiResponse, KakaoStoreType } from "@/interface";
 import axios from "axios";
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/router";
@@ -13,15 +13,13 @@ export default function Mypage() {
   const { page = "1" }: any = router.query;
   const fetchComments = async () => {
     const { data } = await axios(
-      `/api/comments?&limit=10&page=${page}&user=${true}`
+      `/api/stores?&limit=10&page=${page}&user=${true}`
     );
     return data as CommentApiResponse;
   };
 
-  const { data: comments, refetch } = useQuery(
-    `comments-${page}`,
-    fetchComments
-  );
+  const { data: posts } = useQuery(`comments-${page}`, fetchComments);
+
   return (
     <div className="md:max-w-5xl mx-auto px-4 py-8">
       <div className="px-4 sm:px-0">
@@ -60,7 +58,7 @@ export default function Mypage() {
                 width={48}
                 height={48}
                 className="rounded-full"
-                src={session?.user.image || "/images/markers/default.png"}
+                src={session?.user.image || "/images/profile.png"}
               />
             </dd>
           </div>
@@ -80,21 +78,48 @@ export default function Mypage() {
           </div>
         </dl>
       </div>
-      {/* <div className="mt-8 px-4 sm:px-0">
-        <h3 className="text-base font-semibold leading-7 text-gray-900">
-          내가 쓴 댓글
-        </h3>
-        <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">
-          댓글 리스트
-        </p>
-      </div> */}
-      {/* <CommentList comments={comments} displayStore={true} /> */}
-
-      {/* <Pagenation
-        total={comments?.totalPage}
+      <div className="mt-2 flex-col">
+        <p className="text-l font-bold">내가 작성한 게시글</p>
+      </div>
+      <ul className="md:max-w-5xl ">
+        {posts && posts?.data.length > 0 ? (
+          posts.data.map((post: KakaoStoreType) => {
+            return (
+              <li
+                key={post.id}
+                className="flex justify-between gap-x-6 mt-2 border-b hover:bg-gray-200 cursor-pointer"
+                onClick={() => router.push(`/stores/${post.id}`)}
+              >
+                <div className="flex min-w-0 gap-x-4">
+                  <div className="min-w-0 flex-auto">
+                    <p className="text-sm font-semibold leading-6 text-gray-900">
+                      {post.place_name}
+                    </p>
+                    <p className="mt-1 truncate text-xs leading-5 text-gray-500">
+                      {post.category_name}
+                    </p>
+                    <p className="mt-1 truncate text-xs leading-5 text-gray-500">
+                      {new Date(post?.createdAt)?.toLocaleDateString(
+                        "ko-KR",
+                        DATE_OPTIONS as any
+                      )}
+                    </p>
+                  </div>
+                </div>
+              </li>
+            );
+          })
+        ) : (
+          <p className="mt-2 text-sm text-gray-500">
+            작성한 게시글이 없습니다.
+          </p>
+        )}
+      </ul>
+      <Pagenation
+        total={posts?.totalPage}
         page={page}
         pathname="/users/mypage"
-      /> */}
+      />
     </div>
   );
 }

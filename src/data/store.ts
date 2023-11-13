@@ -1,46 +1,3 @@
-export const DISTRICT_ARR = [
-  "강남구",
-  "강동구",
-  "강북구",
-  "강서구",
-  "관악구",
-  "광진구",
-  "구로구",
-  "금천구",
-  "노원구",
-  "도봉구",
-  "동대문구",
-  "동작구",
-  "마포구",
-  "서대문구",
-  "서초구",
-  "성동구",
-  "성북구",
-  "송파구",
-  "양천구",
-  "영등포구",
-  "용산구",
-  "은평구",
-  "종로구",
-  "중구",
-  "중랑구",
-];
-
-export const CATEGORY_ARR = [
-  "한식",
-  "카페",
-  "분식",
-  "동남아",
-  "양식",
-  "술집",
-  "베이커리",
-  "인도_중동",
-  "중국식",
-  "탕류",
-  "일식",
-  "복어취급",
-];
-
 export const STAR_SCORE = [
   "⭐️",
   "⭐️⭐️",
@@ -48,11 +5,12 @@ export const STAR_SCORE = [
   "⭐️⭐️⭐️⭐️",
   "⭐️⭐️⭐️⭐️⭐️",
 ];
-export const FOOD_CERTIFY_ARR = [
-  "비건음식",
-  "가족과 함께",
-  "저염음식점",
-  "친환경유기농식품판매점",
-];
 
-export const STORE_TYPE_ARR = ["일반음식점", "휴게음식점", "제과음식점"];
+export const DATE_OPTIONS = {
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+  hour: "2-digit",
+  minute: "2-digit",
+  hour12: true,
+};

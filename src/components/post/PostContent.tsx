@@ -7,6 +7,7 @@ import Link from "next/link";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import axios from "axios";
+import { DATE_OPTIONS } from "@/data/store";
 
 interface PostContentProps {
   store?: KakaoStoreType;
@@ -32,14 +33,7 @@ export default function PostContent({ store }: PostContentProps) {
       }
     }
   };
-  const options = {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: true,
-  };
+
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
       <div className="md:flex justify-between items-center py-4 md:py-0">
@@ -63,7 +57,7 @@ export default function PostContent({ store }: PostContentProps) {
               {store &&
                 new Date(store?.createdAt)?.toLocaleDateString(
                   "ko-KR",
-                  options as any
+                  DATE_OPTIONS as any
                 )}
             </p>
           </div>
