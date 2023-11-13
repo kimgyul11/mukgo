@@ -1,40 +1,27 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+배포 주소 : <https://mukgo.vercel.app>
 
-## Getting Started
+### 프로젝트 소개
+카카오 지도 API를 연동하여 가게 정보와 리뷰를 작성할 수 있도록 구성한 프로젝트
 
-First, run the development server:
+### 프로젝트 목표 
+- Next.js를 통해서 SSR에 대한 개념을 배운다.
+- 외부 API를 활용하는 방법에 대해 배운다.
+- prisma와 next.js의 API Routes를 활용한 서버리스에 대한 개념을 학습
+- tailwindCSS에 대해 학습
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### 개발 환경
+- 프레임 워크 : Next.js  
+- 상태 관리 : recoil,react-query
+- 라이브러리 : prisma , supabase , next-auth , tailwindCSS , react-hook-form
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 주요 구현 기능 
+- kakao map API를 활용한 지도 검색 ,마커 기능
+- Next-auth를 활용한 로그인,로그아웃 기능
+- Next-auth를 활용한 소셜 로그인 기능 구현
+- recoil을 활용한 전역상태 관리
+- 별점순 , 가게명 검색기능 
+- react-query를 활용한 무한 스크롤 및 페이지네이션 기능 구현
+- GeolocationAPI를 활용한 내 위치 검색하기
+- 작성한 POST의 CRUD 기능 구현
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
